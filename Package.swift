@@ -126,6 +126,7 @@ if fm.fileExists(atPath: "src/agentcore") == false {
                        toPath: AGENT_CORE_DIR + FILE_SEPARATOR + "include" + FILE_SEPARATOR + AGENT_EXTENSIONS)
 
 #if os(Linux)
+   _ = try fm.removeItem(atPath: rootDirPath + FILE_SEPARATOR + "module.modulemap")
 #else
    ///put module.modulemap into agentcore's include directory so agentcore can be built without -Xlinker options
    _ = try fm.moveItem(atPath: rootDirPath + FILE_SEPARATOR + "module.modulemap", 
