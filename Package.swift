@@ -124,7 +124,13 @@ if fm.fileExists(atPath: "src/agentcore") == false {
    ///put AgentExtensions.h into agentcore's include directory so the functions can be exported
    _ = try fm.moveItem(atPath: AGENT_CORE_DIR + FILE_SEPARATOR + MONITOR_SRC_DIR + AGENT_EXTENSIONS, 
                        toPath: AGENT_CORE_DIR + FILE_SEPARATOR + "include" + FILE_SEPARATOR + AGENT_EXTENSIONS)
-   
+
+#if os(Linux)
+#else
+   ///put module.modulemap into agentcore's include directory so agentcore can be built without -Xlinker options
+   _ = try fm.moveItem(atPath: rootDirPath + FILE_SEPARATOR + "module.modulemap", 
+                       toPath: AGENT_CORE_DIR + FILE_SEPARATOR + "include" + FILE_SEPARATOR + "module.modulemap")
+#endif
 
    ///put properties dir into root so that it doesn't try to be a module
    _ =  try fm.moveItem(atPath: PROPERTIES_DIR, toPath: rootDirPath + FILE_SEPARATOR + PROPERTIES_DIR)
